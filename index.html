@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nicolas Frantz — desenvolvedor fullstack</title>
+  <title>Nicolas Frantz</title>
   <meta name="description" content="Nicolas Frantz, desenvolvedor fullstack. Sistemas web em PHP, JavaScript, Vue, React e TypeScript." />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=10" />
+  <link rel="stylesheet" href="styles.css?v=12" />
 </head>
 <body data-title="home.title" data-description="home.description">
   <a class="skip" href="#conteudo" data-i18n="skip">Ir para o conteúdo</a>
@@ -169,26 +169,22 @@
         </form>
       </div>
     </section>
+    <script src="lang.js"></script>
     <script>
       document.getElementById("mensagem").addEventListener("submit", (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const nome = String(data.get("nome") || "").trim();
-        const email = String(data.get("email") || "").trim();
         const mensagem = String(data.get("mensagem") || "").trim();
-        const en = localStorage.getItem("portfolio-lang") === "en";
-        const body = en
-          ? `Name: ${nome}\nEmail: ${email}\n\n${mensagem}`
-          : `Nome: ${nome}\nE-mail: ${email}\n\n${mensagem}`;
-        const subject = (en ? "Portfolio contact — " : "Contato pelo portfólio — ") + nome;
+        const destino = document.querySelector(".mail-pill")?.textContent.trim() || "";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(destino) || !mensagem) return;
+        const subject = window.portfolioCopy("home.mailSubject") + nome;
         window.location.href =
-          "mailto:nicolas.frantz@hotmail.com?subject=" +
-          encodeURIComponent(subject) +
-          "&body=" +
-          encodeURIComponent(body);
+          "mailto:" + destino +
+          "?subject=" + encodeURIComponent(subject) +
+          "&body=" + encodeURIComponent(mensagem);
       });
     </script>
-    <script src="lang.js"></script>
   </main>
 
 </body>
